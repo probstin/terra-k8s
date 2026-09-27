@@ -1,0 +1,48 @@
+# STUB — blocked on modules/eks-cluster. Also deliberately fails its own
+# precondition (use_static_creds=false, IRSA not implemented) — see
+# modules/external-secrets-store/main.tf and docs/secrets-and-ministack.md.
+
+include "root" {
+  path = find_in_parent_folders("root.hcl")
+}
+
+include "envcommon" {
+  path = "${get_repo_root()}/live/_envcommon/external-secrets-store.hcl"
+}
+
+locals {
+  env = read_terragrunt_config(find_in_parent_folders("env.hcl"))
+}
+
+dependency "cluster" {
+  config_path = "../eks-cluster"
+
+  mock_outputs = {
+    host                   = "https://mock"
+    cluster_ca_certificate = ""
+    client_certificate     = ""
+    client_key             = ""
+  }
+  mock_outputs_allowed_terraform_commands = ["validate", "plan"]
+}
+
+dependency "eso" {
+  config_path = "../external-secrets"
+
+  mock_outputs = {
+    namespace                = "external-secrets"
+    backend_auth_secret_name = null
+  }
+  mock_outputs_allowed_terraform_commands = ["validate", "plan"]
+}
+
+inputs = {
+  cluster_host               = dependency.cluster.outputs.host
+  cluster_ca_certificate     = dependency.cluster.outputs.cluster_ca_certificate
+  cluster_client_certificate = dependency.cluster.outputs.client_certificate
+  cluster_client_key         = dependency.cluster.outputs.client_key
+
+  use_static_creds              = false
+  backend_auth_secret_namespace = dependency.eso.outputs.namespace
+  aws_region                    = local.env.locals.aws_region
+}

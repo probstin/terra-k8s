@@ -1,0 +1,33 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# tfvars — committed only when explicitly named *.tfvars.example,
+# or live/local/_bootstrap/terraform.tfvars (naming/networking constants only, no secrets)
+*.tfvars
+!*.tfvars.example
+!live/local/_bootstrap/terraform.tfvars
+
+# Terragrunt
+.terragrunt-cache/
+**/.terragrunt-cache/*
+
+# Generated kubeconfig / credentials
+*.kubeconfig
+kubeconfig*
+!kubeconfig*.example
+
+# OS / editor cruft
+.DS_Store
+*.swp
+
+# Claude Code session state
+.claude/

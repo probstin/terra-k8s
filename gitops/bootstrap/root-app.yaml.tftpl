@@ -11,6 +11,11 @@ spec:
     path: ${apps_path}
     directory:
       recurse: true
+      # Each app's own manifests/ subfolder is applied by that app's own
+      # child Application (via its own source.path), not by the root — those
+      # manifests have no namespace set, since they rely on being scoped by
+      # the child Application's destination.namespace.
+      exclude: "*/manifests/**"
   destination:
     server: https://kubernetes.default.svc
   syncPolicy:

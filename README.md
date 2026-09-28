@@ -9,6 +9,7 @@ The local environment uses [MiniStack](https://ministack.org/) — an open-sourc
 ## Docs
 
 - [Prerequisites](docs/prerequisites.md) — what to install before you start.
+- [Accessing the cluster & services](docs/access.md) — connect `kubectl`, reach ArgoCD/Headlamp/Tekton Dashboard/MiniStack.
 - [Architecture](docs/architecture.md) — components, dependency order, design rationale.
 - [Secrets & MiniStack](docs/secrets-and-ministack.md) — how secrets flow from MiniStack through External Secrets Operator.
 - [GitOps](docs/gitops.md) — how ArgoCD is bootstrapped and how to add a new app deployment.
@@ -24,4 +25,4 @@ docs/       setup and design documentation
 
 ## Quick start (local environment)
 
-See [docs/prerequisites.md](docs/prerequisites.md) for required tooling, then [docs/architecture.md](docs/architecture.md) for the full bootstrap → apply sequence.
+See [docs/prerequisites.md](docs/prerequisites.md) for required tooling, then [docs/architecture.md](docs/architecture.md) for the full bootstrap → apply sequence. Once it's up, see [docs/access.md](docs/access.md) for how to connect to it and reach every UI.

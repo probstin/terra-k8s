@@ -16,10 +16,10 @@ This is the boundary the project draws deliberately: cluster *tooling* (ArgoCD i
 
 ```sh
 kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
-kubectl port-forward svc/argocd-server -n argocd 8080:443
+kubectl port-forward svc/argocd-server -n argocd 8080:80
 ```
 
-Then open `https://localhost:8080` (self-signed cert warning expected — the chart runs `server.insecure = true`, i.e. plain HTTP behind TLS-terminating proxies in real deployments; locally there's no such proxy, so the browser still needs to accept the port-forwarded connection).
+Then open `http://localhost:8080` — **not https**: the chart runs `server.insecure = true` locally, so the server speaks plain HTTP directly (no TLS-terminating proxy in front of it the way a real deployment would have). See [access.md](access.md) for this and every other service's access instructions in one place.
 
 ## The `gitops/apps` folder convention
 

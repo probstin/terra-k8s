@@ -31,6 +31,14 @@ provider "aws" {
 resource "aws_s3_bucket" "tfstate" {
   provider = aws.ministack
   bucket   = var.tfstate_bucket_name
+
+  # The aliased aws provider's `endpoints` block is built from a plain
+  # string (module.ministack.endpoint_host doesn't depend on any computed
+  # resource attribute), so Terraform can't infer a dependency on the
+  # container/network from it alone — without this explicit depends_on, a
+  # `destroy` can tear down the MiniStack container before this resource's
+  # own destroy call gets a chance to reach it.
+  depends_on = [module.ministack]
 }
 
 resource "aws_s3_bucket_versioning" "tfstate" {
@@ -52,4 +60,6 @@ resource "aws_dynamodb_table" "tflock" {
     name = "LockID"
     type = "S"
   }
+
+  depends_on = [module.ministack]
 }

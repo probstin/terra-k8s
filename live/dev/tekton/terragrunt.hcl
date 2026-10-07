@@ -17,7 +17,7 @@ dependency "cluster" {
     client_certificate     = ""
     client_key             = ""
   }
-  mock_outputs_allowed_terraform_commands = ["validate", "plan"]
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
 }
 
 inputs = {

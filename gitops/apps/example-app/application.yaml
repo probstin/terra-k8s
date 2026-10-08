@@ -3,6 +3,10 @@ kind: Application
 metadata:
   name: example-app
   namespace: argocd
+  # Prune this app's resources (incl. its ExternalSecret) when the Application
+  # is deleted, rather than orphaning them after ArgoCD is gone.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:

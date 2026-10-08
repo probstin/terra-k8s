@@ -19,7 +19,7 @@ dependency "cluster" {
     client_certificate     = ""
     client_key             = ""
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "destroy"]
 }
 
 dependency "eso" {
@@ -29,7 +29,7 @@ dependency "eso" {
     namespace                = "external-secrets"
     backend_auth_secret_name = "aws-secretsmanager-creds"
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "destroy"]
 }
 
 inputs = {

@@ -34,5 +34,9 @@ resource "kubectl_manifest" "root_application" {
     apps_path              = var.apps_path
   })
 
+  # On destroy, block until ArgoCD's resources-finalizer has cascaded through
+  # every child app, so the ArgoCD controller isn't uninstalled mid-prune.
+  wait = true
+
   depends_on = [helm_release.argocd]
 }

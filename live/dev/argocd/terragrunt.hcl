@@ -12,6 +12,15 @@ locals {
   env = read_terragrunt_config(find_in_parent_folders("env.hcl"))
 }
 
+# Not an output dependency — purely ordering. Apps that ArgoCD deploys use
+# ExternalSecrets, so on destroy ArgoCD (and the app resources it prunes)
+# must go before ESO; otherwise the ExternalSecrets are left holding ESO's
+# cleanup finalizer with no controller to clear it, and ESO's CRD deletion
+# hangs.
+dependencies {
+  paths = ["../external-secrets-store"]
+}
+
 dependency "cluster" {
   config_path = "../eks-cluster"
 
@@ -21,7 +30,7 @@ dependency "cluster" {
     client_certificate     = ""
     client_key             = ""
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "destroy"]
 }
 
 inputs = {

@@ -3,6 +3,11 @@ kind: Application
 metadata:
   name: ${root_application_name}
   namespace: ${namespace}
+  # Cascade deletion: when Terraform deletes this Application, ArgoCD deletes
+  # the child Applications it manages (and they, in turn, their resources)
+  # instead of orphaning them in the cluster.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:

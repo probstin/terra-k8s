@@ -21,6 +21,10 @@ resource "aws_secretsmanager_secret" "this" {
   provider = aws.ministack
 
   name = each.key
+
+  # Delete immediately on destroy. The default 30-day recovery window keeps
+  # the name reserved, so a destroy/apply cycle fails with ResourceExistsException.
+  recovery_window_in_days = 0
 }
 
 resource "aws_secretsmanager_secret_version" "this" {
